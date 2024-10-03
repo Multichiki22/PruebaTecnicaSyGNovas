@@ -1,0 +1,45 @@
+version: '3.8'
+services:
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 8546
+      POSTGRES_DB: projectsDB
+    networks:
+      - postgres
+    volumes:
+      - VolumenProjects:/projectsDB
+    ports:
+      - '5432:5432'
+  backendService:
+    container_name: back_container
+    image: backend/back_image
+    restart: unless-stopped
+    build:
+      context: backend
+      dockerfile: Dockerfile
+    ports:
+      - '5001:5000'
+    depends_on:
+      - postgres
+    command: ["sh", "-c", "npx prisma db push && npm run start:dev"]
+    networks:
+      - postgres
+  frontendService:
+    container_name: front_container
+    image: frontend/front_image
+    restart: always
+    build:
+      context: frontend
+      dockerfile: Dockerfile
+      target: production
+    ports:
+      - '3005:80'
+    networks:
+      - postgres         
+
+networks:
+  postgres:
+volumes:
+  VolumenProjects:

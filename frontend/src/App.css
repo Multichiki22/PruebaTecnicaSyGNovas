@@ -1,0 +1,15 @@
+@font-face {
+    font-family: "AgbalumoRegular";
+    src: url("../public/Fonts/Agbalumo-Regular.ttf");
+}
+@media (min-width: 1200px) {
+    .App{
+font-size: larger !important;
+    }
+}
+.App {
+    background-color: #74BDFC;
+    min-height: 100vh;
+    height: 100%;
+    font-family: "AgbalumoRegular";
+}
